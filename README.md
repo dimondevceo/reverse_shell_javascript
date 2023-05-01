@@ -1,5 +1,5 @@
 # Description
-A reverse shell in JavaScript using WebSockets
+ A reverse shell in JavaScript using WebSockets used to confirm blind XSS vulnerabilities and a tool for post-exploitation.
 # Setup and Use
 `pip install websockets asyncio`
 Then, you need to change your server's IP in the file `server.py`, and in the file `client.html` and upload it to the target server. To test locally, simply open it in your browser.
